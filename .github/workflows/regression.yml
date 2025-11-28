@@ -3,19 +3,33 @@ name: Regression Tests
 on:
   push:
     branches: [ main ]
+  pull_request: 
+    branches: [ main ]
   workflow_dispatch: # Allows manual trigger
 
 jobs:
   test:
+    timeout-minutes: 60
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: lts/*
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 9
       - name: Install dependencies
         run: pnpm install
       - name: Install Playwright Browsers
         run: pnpm exec playwright install --with-deps
       - name: Run Playwright tests
         run: pnpm exec playwright test
+
+        env: 
+          BASE_URL: ${{ secrets.BASE_URL }}
+          API_BASE_URL: ${{ secrets.API_BASE_URL }}
+          SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
+          SAUCE_PASS: ${{ secrets.SAUCE_PASS }}
+          CI: true
