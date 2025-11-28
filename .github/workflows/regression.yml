@@ -11,6 +11,14 @@ jobs:
   test:
     timeout-minutes: 60
     runs-on: ubuntu-latest
+    container:
+      image: mcr.microsoft.com/playwright:v1.57.0-jammy
+    env: 
+          BASE_URL: ${{ secrets.BASE_URL }}
+          API_URL: ${{ secrets.API_BASE_URL }} 
+          SAUCE_USER: ${{ secrets.SAUCE_USERNAME }} 
+          SAUCE_PASS: ${{ secrets.SAUCE_PASS }}
+          CI: true
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -30,21 +38,6 @@ jobs:
         
       - name: Run Playwright tests
         run: pnpm exec playwright test
-        # FIX 1: Indentation alignment
-        env: 
-          # FIX 2: Mapping Secrets to the EXACT names your code uses
-          # Left side = Your Code (process.env.X). Right side = GitHub Secret.
-          BASE_URL: ${{ secrets.BASE_URL }}
-          
-          # Ensure this matches what you used in apiFixtures.ts (API_URL or BASE_URL)
-          API_URL: ${{ secrets.API_BASE_URL }} 
-          
-          # Code uses SAUCE_USER, Secret is SAUCE_USERNAME
-          SAUCE_USER: ${{ secrets.SAUCE_USERNAME }} 
-          SAUCE_PASS: ${{ secrets.SAUCE_PASS }}
-          CI: true
-
-      # FIX 3: Upload Report so you can debug failures
       - uses: actions/upload-artifact@v4
         if: always() # Run even if tests fail
         with:
