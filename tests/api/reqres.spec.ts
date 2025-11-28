@@ -7,6 +7,7 @@ import {
     ListUsersSchema,
     RegisterResponseSchema
 } from '../../src/models/api/ReqResModels';
+import { StatusCode } from '../../src/constants/StatusCode';
 import userData from '../../src/utils/testData/userData.json';
 
 // DDT tests
@@ -20,7 +21,7 @@ test.describe('ReqRes API = Data Driven Tests', { tag: ['@api', '@regression'] }
     for (const [index, user] of testData.entries()) {
         test(`POST Create User - Iteration ${index + 1} (Job: ${user.job})`, { tag: index === 0 ? '@smoke' : undefined }, async ({ api }) => {
             const response = await api.createUser({ name: user.name, job: user.job });
-            expect(response.status(), 'Response status is not 201').toBe(201);
+            expect(response.status(), 'Response status is not Created').toBe(StatusCode.CREATED);
 
             const body = await response.json();
             CreateUserResponseSchema.parse(body);
@@ -34,7 +35,7 @@ test.describe('ReqRes API = Data Driven Tests', { tag: ['@api', '@regression'] }
 test.describe('ReqRes API tests', { tag: ['@api', '@regression'] }, () => {
     test('GET Single User - Happy Path', { tag: '@smoke' }, async ({ api }) => {
         const response = await api.getSingleUser(2);
-        expect(response.status(), 'Response status is not 200').toBe(200);
+        expect(response.status(), 'Response status is not OK').toBe(StatusCode.OK);
 
         const body = await response.json();
         SingleUserResponseSchema.parse(body);
@@ -44,7 +45,7 @@ test.describe('ReqRes API tests', { tag: ['@api', '@regression'] }, () => {
 
     test('GET Single User - Not Found', async ({ api }) => {
         const response = await api.getSingleUser(9999);
-        expect(response.status(), 'User with id: 9999 was found').toBe(404);
+        expect(response.status(), 'User with id: 9999 was found').toBe(StatusCode.NOT_FOUND);
         // 404 returns empty object {}
         const body = await response.json();
         expect(Object.keys(body).length).toBe(0);
@@ -53,7 +54,7 @@ test.describe('ReqRes API tests', { tag: ['@api', '@regression'] }, () => {
     test('GET List Users - Pagination', async ({ api }) => {
         const page = 2;
         const response = await api.listUsers(page);
-        expect(response.status()).toBe(200);
+        expect(response.status(), 'Response status is not OK').toBe(StatusCode.OK);
 
         const body = await response.json();
         ListUsersSchema.parse(body);
@@ -63,7 +64,7 @@ test.describe('ReqRes API tests', { tag: ['@api', '@regression'] }, () => {
 
     test('POST Register - Success', { tag: '@smoke' }, async ({ api }) => {
         const response = await api.registerUser(userData.email, userData.password);
-        expect(response.status(), 'Response status is not as expected').toBe(200);
+        expect(response.status(), 'Response status is not as expected').toBe(StatusCode.OK);
 
         const body = await response.json();
         RegisterResponseSchema.parse(body);
@@ -72,7 +73,7 @@ test.describe('ReqRes API tests', { tag: ['@api', '@regression'] }, () => {
 
     test('POST Register - Missing Password (negative)', async ({ api }) => {
         const response = await api.registerUser(userData.emailWithoutPass); // Missing password
-        expect(response.status(), 'Response status is not as expected').toBe(400);
+        expect(response.status(), 'Response status is not as expected').toBe(StatusCode.BAD_REQUEST);
 
         const body = await response.json();
         expect(body.error, 'Error message is not as expected').toBe('Missing password');
