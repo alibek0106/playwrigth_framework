@@ -31,9 +31,18 @@ export default defineConfig({
       testMatch: /.*\.setup\.ts/,
     },
     {
-      name: 'chromium',
+      name: 'ui-chrome',
+      testMatch: ['**/tests/*.spec.ts', '!**/api/*.spec.ts'],
       use: { ...devices['Desktop Chrome'], storageState: 'playwright/.auth/user.json', },
       dependencies: ['setup'],
+    },
+    {
+      name: 'api',
+      testMatch: '**/api/*.spec.ts',
+      use: {
+        baseURL: process.env.BASE_URL,
+      },
+      dependencies: [],
     },
 
     //{
