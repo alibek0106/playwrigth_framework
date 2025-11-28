@@ -8,7 +8,7 @@ type ApiFixtures = {
 export const test = base.extend<ApiFixtures>({
     api: async ({ }, use) => {
         const context = await playwrightRequest.newContext({
-            baseURL: process.env.API_URL,
+            baseURL: process.env.API_URL || 'https://reqres.in',
             extraHTTPHeaders: {
                 'Content-Type': 'application/json',
                 'x-api-key': 'reqres-free-v1',

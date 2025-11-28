@@ -16,7 +16,7 @@ export default defineConfig({
   workers: process.env.CI ? 1 : undefined,
   reporter: [['list'], ['html', { open: 'never' }]],
   use: {
-    baseURL: process.env.BASE_URL,
+    baseURL: process.env.BASE_URL || 'https://www.saucedemo.com',
     headless: true,
     viewport: { width: 1280, height: 720 },
     ignoreHTTPSErrors: true,
@@ -40,7 +40,7 @@ export default defineConfig({
       name: 'api',
       testMatch: '**/api/*.spec.ts',
       use: {
-        baseURL: process.env.BASE_URL,
+        baseURL: process.env.BASE_URL || 'https://reqres.in',
       },
       dependencies: [],
     },
