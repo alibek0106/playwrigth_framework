@@ -1,0 +1,17 @@
+{
+    "compilerOptions": {
+        "target": "ESNext",
+        "module": "CommonJS",
+        "moduleResolution": "Node",
+        "strict": true,
+        "esModuleInterop": true,
+        "resolveJsonModule": true,
+        "outDir": "dist"
+    },
+    "include": [
+        "src/**/*.ts",
+        "tests/**/*.ts",
+        "playwright.config.ts",
+        "eslint.config.mts"
+    ]
+}

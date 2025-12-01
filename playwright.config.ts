@@ -16,7 +16,7 @@ export default defineConfig({
   workers: process.env.CI ? 1 : undefined,
   reporter: [['list'], ['html', { open: 'never' }]],
   use: {
-    baseURL: process.env.BASE_URL,
+    baseURL: process.env.BASE_URL || 'https://www.saucedemo.com',
     headless: true,
     viewport: { width: 1280, height: 720 },
     ignoreHTTPSErrors: true,
@@ -31,9 +31,18 @@ export default defineConfig({
       testMatch: /.*\.setup\.ts/,
     },
     {
-      name: 'chromium',
+      name: 'ui-chrome',
+      testMatch: ['**/tests/ui/**/*.spec.ts'],
       use: { ...devices['Desktop Chrome'], storageState: 'playwright/.auth/user.json', },
       dependencies: ['setup'],
+    },
+    {
+      name: 'api',
+      testMatch: ['**/tests/api/**/*.spec.ts'],
+      use: {
+        baseURL: process.env.API_URL || 'https://reqres.in',
+      },
+      dependencies: [],
     },
 
     //{
