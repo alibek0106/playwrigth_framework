@@ -10,6 +10,8 @@
     },
     "include": [
         "src/**/*.ts",
-        "tests/**/*.ts"
+        "tests/**/*.ts",
+        "playwright.config.ts",
+        "eslint.config.mts"
     ]
 }

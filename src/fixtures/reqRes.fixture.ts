@@ -1,4 +1,4 @@
-import { APIRequestContext, request as playwrightRequest } from "@playwright/test";
+import { request as playwrightRequest } from "@playwright/test";
 import { ReqResService } from "../api/ReqResService";
 
 export type ReqResFixture = {

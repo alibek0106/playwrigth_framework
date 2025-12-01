@@ -1,15 +1,17 @@
-import { Page, Locator, expect } from '@playwright/test';
+import { Page, Locator } from '@playwright/test';
 import { Routes } from '../constants/Routes';
 
 export class InventoryPage {
     readonly page: Page;
     readonly inventoryItems: Locator;
     readonly cartBadge: Locator;
+    readonly sortDropdown: Locator;
 
     constructor(page: Page) {
         this.page = page;
-        this.inventoryItems = page.locator('.inventory_item');
-        this.cartBadge = page.locator('.shopping_cart_badge');
+        this.inventoryItems = page.locator('.inventory_item').describe('Inventory items');
+        this.cartBadge = page.locator('.shopping_cart_badge').describe('Cart badge');
+        this.sortDropdown = page.locator('[data-test="product-sort-container"]').describe('Sort dropdown');
     }
 
     async addItemToCart(productName: string) {
@@ -27,5 +29,9 @@ export class InventoryPage {
 
     async goto() {
         await this.page.goto(Routes.INVENTORY);
+    }
+
+    async goToCart() {
+        await this.cartBadge.click();
     }
 }

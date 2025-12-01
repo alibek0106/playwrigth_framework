@@ -14,12 +14,11 @@ test.describe('ReqRes API = Data Driven Tests', { tag: ['@api', '@regression'] }
     const testData = DataFactory.generateDeterministicUserList(3);
 
     for (const [index, user] of testData.entries()) {
-        test(`POST Create User - Iteration ${index + 1} (Job: ${user.job})`, { tag: index === 0 ? '@smoke' : undefined }, async ({ api }) => {
+        test(`POST Create User - Iteration ${index + 1} (Job: ${user.job})`, { tag: index === 0 ? ['@smoke'] : [] }, async ({ api }) => {
             const response = await api.createUser({ name: user.name, job: user.job });
             expect(response.status(), 'Response status is not Created').toBe(StatusCode.CREATED);
 
-            const body = await response.json();
-            CreateUserResponseSchema.parse(body);
+            const body = CreateUserResponseSchema.parse(await response.json());
             expect(body.name, 'Name is not as expected').toBe(user.name);
             expect(body.job, 'Job is not as expected').toBe(user.job);
         });

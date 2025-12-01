@@ -3,9 +3,7 @@ import { DataFactory } from '../../src/utils/DataFactory';
 import { StatusCode } from '../../src/constants/StatusCode';
 import {
     CreateUserResponseSchema,
-    SingleUserResponseSchema,
-    ListUsersSchema,
-    RegisterResponseSchema
+    SingleUserResponseSchema
 } from '../../src/models/api/ReqResModels';
 
 test.describe('Task Assignment: 4 API Scenarios', { tag: '@task' }, () => {
@@ -46,8 +44,7 @@ test.describe('Task Assignment: 4 API Scenarios', { tag: '@task' }, () => {
 
         expect(response.status(), 'Response status is not Created').toBe(StatusCode.CREATED);
 
-        const body = await response.json();
-        CreateUserResponseSchema.parse(body);
+        const body = CreateUserResponseSchema.parse(await response.json());
 
         expect(body.name, 'Name is not as expected').toBe(userData.name);
         expect(body.job, 'Job is not as expected').toBe(userData.job);
