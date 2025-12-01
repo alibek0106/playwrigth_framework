@@ -43,8 +43,9 @@ export const RegisterResponseSchema = z.object({
     token: z.string()
 });
 
-// 6. Request Interfaces
-export interface CreateUserRequest {
-    name: string;
-    job: string;
-}
+export const CreateUserRequestSchema = z.object({
+    name: z.string(),
+    job: z.string()
+});
+
+export type CreateUserRequest = z.infer<typeof CreateUserRequestSchema>;

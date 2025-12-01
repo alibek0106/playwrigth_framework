@@ -1,6 +1,5 @@
-import { test, expect } from '../../src/fixtures/apiFixtures';
+import { test, expect } from '../../src/fixtures';
 import { DataFactory } from '../../src/utils/DataFactory';
-import { faker } from '@faker-js/faker';
 import {
     CreateUserResponseSchema,
     SingleUserResponseSchema,
@@ -8,15 +7,11 @@ import {
     RegisterResponseSchema
 } from '../../src/models/api/ReqResModels';
 import { StatusCode } from '../../src/constants/StatusCode';
-import userData from '../../src/utils/testData/userData.json';
 
 // DDT tests
 test.describe('ReqRes API = Data Driven Tests', { tag: ['@api', '@regression'] }, () => {
-    // Every time this file runs, the 'Random' data will be identical.
-    faker.seed(123);
-
     // Generate test data before the tests run
-    const testData = DataFactory.generateUserList(3);
+    const testData = DataFactory.generateDeterministicUserList(3);
 
     for (const [index, user] of testData.entries()) {
         test(`POST Create User - Iteration ${index + 1} (Job: ${user.job})`, { tag: index === 0 ? '@smoke' : undefined }, async ({ api }) => {
@@ -63,7 +58,7 @@ test.describe('ReqRes API tests', { tag: ['@api', '@regression'] }, () => {
     });
 
     test('POST Register - Success', { tag: '@smoke' }, async ({ api }) => {
-        const response = await api.registerUser(userData.email, userData.password);
+        const response = await api.registerUser(process.env.REQRES_USER!, process.env.REQRES_PASS!);
         expect(response.status(), 'Response status is not as expected').toBe(StatusCode.OK);
 
         const body = await response.json();
@@ -72,7 +67,7 @@ test.describe('ReqRes API tests', { tag: ['@api', '@regression'] }, () => {
     });
 
     test('POST Register - Missing Password (negative)', async ({ api }) => {
-        const response = await api.registerUser(userData.emailWithoutPass); // Missing password
+        const response = await api.registerUser(process.env.REQRES_USER!); // Missing password
         expect(response.status(), 'Response status is not as expected').toBe(StatusCode.BAD_REQUEST);
 
         const body = await response.json();

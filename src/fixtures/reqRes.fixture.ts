@@ -1,18 +1,17 @@
-import { test as base, request as playwrightRequest } from '@playwright/test';
-import { ReqResService } from '../api/ReqResService';
+import { APIRequestContext, request as playwrightRequest } from "@playwright/test";
+import { ReqResService } from "../api/ReqResService";
 
-type ApiFixtures = {
+export type ReqResFixture = {
     api: ReqResService;
 };
 
-export const test = base.extend<ApiFixtures>({
-    api: async ({ }, use) => {
+export const reqResFixture = {
+    api: async ({ }, use: (r: ReqResService) => Promise<void>) => {
         const context = await playwrightRequest.newContext({
             baseURL: process.env.API_URL || 'https://reqres.in',
             extraHTTPHeaders: {
                 'Content-Type': 'application/json',
                 'x-api-key': 'reqres-free-v1',
-                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
             }
         });
 
@@ -20,6 +19,4 @@ export const test = base.extend<ApiFixtures>({
         await use(service);
         await context.dispose();
     }
-});
-
-export { expect } from '@playwright/test';
+};
