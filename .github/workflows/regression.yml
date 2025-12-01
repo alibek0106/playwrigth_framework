@@ -38,6 +38,13 @@ jobs:
         
       - name: Install Playwright Browsers
         run: pnpm exec playwright install --with-deps
+      
+      - name: Debug Environment Variables
+        run: |
+          echo "Checking Secrets..."
+          if [ -z "@REQRES_USER"]; then echo "X REQRES_USER is empty"; else echo "REQRES_USER is set"; fi
+          if [ -z "@REQRES_PASS"]; then echo "X REQRES_PASS is empty"; else echo "REQRES_PASS is set"; fi
+          if [ -z "@REQRES_USER_NOPASS"]; then echo "X REQRES_USER_NOPASS is empty"; else echo "REQRES_USER_NOPASS is set"; fi
         
       - name: Run Playwright tests
         run: pnpm exec playwright test
