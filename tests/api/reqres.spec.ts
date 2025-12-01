@@ -67,7 +67,7 @@ test.describe('ReqRes API tests', { tag: ['@api', '@regression'] }, () => {
     });
 
     test('POST Register - Missing Password (negative)', async ({ api }) => {
-        const response = await api.registerUser(process.env.REQRES_USER!); // Missing password
+        const response = await api.registerUser(process.env.REQRES_USER_NOPASS!); // Missing password
         expect(response.status(), 'Response status is not as expected').toBe(StatusCode.BAD_REQUEST);
 
         const body = await response.json();
