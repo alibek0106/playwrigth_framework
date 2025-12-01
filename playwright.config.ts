@@ -32,13 +32,13 @@ export default defineConfig({
     },
     {
       name: 'ui-chrome',
-      testMatch: ['**/tests/**/*.spec.ts', '!**/api/*.spec.ts'],
+      testMatch: ['**/tests/**/*.spec.ts'],
       use: { ...devices['Desktop Chrome'], storageState: 'playwright/.auth/user.json', },
       dependencies: ['setup'],
     },
     {
       name: 'api',
-      testMatch: '**/api/*.spec.ts',
+      testMatch: ['**/tests/api/**/*.spec.ts'],
       use: {
         baseURL: process.env.BASE_URL || 'https://reqres.in',
       },
