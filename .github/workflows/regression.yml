@@ -14,14 +14,14 @@ jobs:
     container:
       image: mcr.microsoft.com/playwright:v1.57.0-jammy
     env: 
-          BASE_URL: ${{ secrets.BASE_URL }}
-          API_URL: ${{ secrets.API_BASE_URL }} 
-          SAUCE_USER: ${{ secrets.SAUCE_USERNAME }} 
-          SAUCE_PASS: ${{ secrets.SAUCE_PASS }}
-          REQRES_USER: ${{ secrets.REQRES_USER }}
-          REQRES_PASS: ${{ secrets.REQRES_PASS }}
-          REQRES_USER_NOPASS: ${{ secrets.REQRES_USER_NOPASS }}
-          CI: true
+      BASE_URL: ${{ secrets.BASE_URL }}
+      API_URL: ${{ secrets.API_BASE_URL }} 
+      SAUCE_USER: ${{ secrets.SAUCE_USERNAME }} 
+      SAUCE_PASS: ${{ secrets.SAUCE_PASS }}
+      REQRES_USER: ${{ secrets.REQRES_USER }}
+      REQRES_PASS: ${{ secrets.REQRES_PASS }}
+      REQRES_USER_NOPASS: ${{ secrets.REQRES_USER_NOPASS }}
+      CI: true
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
