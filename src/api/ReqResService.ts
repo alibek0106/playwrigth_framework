@@ -18,6 +18,7 @@ export class ReqResService {
     }
 
     async registerUser(email: string, password?: string): Promise<APIResponse> {
+        console.log(`[DEBUG] Registering with email: '${email}' and password: '${password}'`)
         return await this.request.post(Routes.REGISTER, {
             data: { email, password }
         });
