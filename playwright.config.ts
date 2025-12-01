@@ -40,7 +40,7 @@ export default defineConfig({
       name: 'api',
       testMatch: ['**/tests/api/**/*.spec.ts'],
       use: {
-        baseURL: process.env.BASE_URL || 'https://reqres.in',
+        baseURL: process.env.API_URL || 'https://reqres.in',
       },
       dependencies: [],
     },
