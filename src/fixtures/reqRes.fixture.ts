@@ -11,13 +11,8 @@ export const reqResFixture = {
             baseURL: process.env.API_URL || 'https://reqres.in',
             extraHTTPHeaders: {
                 'Content-Type': 'application/json',
-                'x-api-key': 'reqres-free-v1',
-                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-                'Referer': 'https://reqres.in/',
-                'Origin': 'https://reqres.in',
-                'sec-ch-ua': '"Not_A Brand";v="8", "Chromium";v="120", "Google Chrome";v="120"',
-                'sec-ch-ua-mobile': '?0',
-                'sec-ch-ua-platform': '"Windows"'
+                'Accept': 'application/json',
+                'x-api-key': process.env.REQRES_API_KEY!,
             }
         });
 

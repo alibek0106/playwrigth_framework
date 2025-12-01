@@ -32,7 +32,7 @@ export default defineConfig({
     },
     {
       name: 'ui-chrome',
-      testMatch: ['**/tests/**/*.spec.ts'],
+      testMatch: ['**/tests/ui/**/*.spec.ts'],
       use: { ...devices['Desktop Chrome'], storageState: 'playwright/.auth/user.json', },
       dependencies: ['setup'],
     },

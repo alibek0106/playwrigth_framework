@@ -21,6 +21,7 @@ jobs:
       REQRES_USER: ${{ secrets.REQRES_USER }}
       REQRES_PASS: ${{ secrets.REQRES_PASS }}
       REQRES_USER_NOPASS: ${{ secrets.REQRES_USER_NOPASS }}
+      REQRES_API_KEY: ${{ secrets.REQRES_API_KEY}}
       CI: true
     steps:
       - uses: actions/checkout@v4
