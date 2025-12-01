@@ -16,7 +16,7 @@ jobs:
     env: 
       BASE_URL: ${{ secrets.BASE_URL }}
       API_URL: ${{ secrets.API_URL }} 
-      SAUCE_USER: ${{ secrets.SAUCE_USERNAME }} 
+      SAUCE_USER: ${{ secrets.SAUCE_USER }} 
       SAUCE_PASS: ${{ secrets.SAUCE_PASS }}
       REQRES_USER: ${{ secrets.REQRES_USER }}
       REQRES_PASS: ${{ secrets.REQRES_PASS }}
@@ -35,7 +35,7 @@ jobs:
           
       - name: Install dependencies
         run: pnpm install
-        
+
       - name: Run Playwright tests
         run: pnpm exec playwright test
       - uses: actions/upload-artifact@v4
