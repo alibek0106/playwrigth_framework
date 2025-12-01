@@ -16,14 +16,6 @@ test.describe('ReqRes API = Data Driven Tests', { tag: ['@api', '@regression'] }
     for (const [index, user] of testData.entries()) {
         test(`POST Create User - Iteration ${index + 1} (Job: ${user.job})`, { tag: index === 0 ? '@smoke' : undefined }, async ({ api }) => {
             const response = await api.createUser({ name: user.name, job: user.job });
-
-            // DEBUG
-            if (response.status() === 401) {
-                console.log('--- BLOCKED BY SERVER ---');
-                console.log(await response.text());
-                console.log('--------------------------');
-            }
-
             expect(response.status(), 'Response status is not Created').toBe(StatusCode.CREATED);
 
             const body = await response.json();
