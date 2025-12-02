@@ -8,9 +8,9 @@ export class LoginPage {
 
     constructor(page: Page) {
         this.page = page;
-        this.usernameInput = page.locator('#user-name');
-        this.passwordInput = page.locator('#password');
-        this.loginBtn = page.locator('#login-button');
+        this.usernameInput = page.locator('#user-name').describe('Username input field');
+        this.passwordInput = page.locator('#password').describe('Password input field');
+        this.loginBtn = page.locator('#login-button').describe('Login button');
     }
 
     async goto() {
