@@ -52,4 +52,13 @@ export class DataFactory {
             postalCode: faker.location.zipCode()
         };
     }
+
+    static getKnownUser() {
+        return {
+            id: 2,
+            email: 'janet.weaver@reqres.in',
+            firstName: 'Janet',
+            lastName: 'Weaver'
+        };
+    }
 }
