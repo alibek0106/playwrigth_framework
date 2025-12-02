@@ -10,23 +10,26 @@ export class InventoryPage {
 
     constructor(page: Page) {
         this.page = page;
-        this.title = page.locator('.title').describe('Inventory Page title');
-        this.inventoryItems = page.locator('.inventory_item').describe('Inventory items');
-        this.cartBadge = page.locator('.shopping_cart_badge').describe('Cart badge');
-        this.sortDropdown = page.locator('[data-test="product-sort-container"]').describe('Sort dropdown');
+        // Using semantic selectors where possible, data-test attributes for stability
+        this.title = page.locator('[data-test="title"]');
+        this.inventoryItems = page.locator('[data-test="inventory-item"]');
+        this.cartBadge = page.locator('[data-test="shopping-cart-badge"]');
+        this.sortDropdown = page.locator('[data-test="product-sort-container"]');
     }
 
     async addItemToCart(productName: string) {
-        const productCard = this.inventoryItems.filter({ hasText: productName });
+        const productCard = this.page.locator('[data-test="inventory-item"]').filter({ hasText: productName });
         await productCard.getByRole('button', { name: 'Add to cart' }).click();
     }
 
     async getCartCount(): Promise<number> {
-        if (await this.cartBadge.isVisible()) {
-            const count = await this.cartBadge.textContent();
+        try {
+            const count = await this.cartBadge.textContent({ timeout: 2000 });
             return parseInt(count || '0');
+        } catch {
+            // Cart badge not visible means cart is empty
+            return 0;
         }
-        return 0;
     }
 
     async goto() {
@@ -34,6 +37,6 @@ export class InventoryPage {
     }
 
     async goToCart() {
-        await this.cartBadge.click();
+        await this.page.locator('[data-test="shopping-cart-link"]').click();
     }
 }

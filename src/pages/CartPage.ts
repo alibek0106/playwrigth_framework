@@ -9,9 +9,10 @@ export class CartPage {
 
     constructor(page: Page) {
         this.page = page;
-        this.cartItems = page.locator('.cart_item').describe('Cart items');
-        this.checkoutBtn = page.locator('[data-test="checkout"]').describe('Checkout button');
-        this.continueShoppingBtn = page.locator('[data-test="continue-shopping"]').describe('Continue shopping button');
+        // Using data-test attributes for stable, reliable selectors
+        this.cartItems = page.locator('[data-test="inventory-item"]');
+        this.checkoutBtn = page.locator('[data-test="checkout"]');
+        this.continueShoppingBtn = page.locator('[data-test="continue-shopping"]');
     }
 
     async goto(): Promise<void> {

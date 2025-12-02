@@ -1,11 +1,7 @@
 import { test, expect } from '../../src/fixtures';
 import { DataFactory } from '../../src/utils/DataFactory';
 import { Routes } from '../../src/constants/Routes';
-
-const PRODUCTS = {
-    BACKPACK: 'Sauce Labs Backpack',
-    BACKPACK_PRICE: '$29.99'
-};
+import { PRODUCTS } from '../../src/constants/Products';
 
 test.describe('SauceDemo Login & Order Flow', { tag: ['@ui', '@auth'] }, () => {
     test.beforeEach(async ({ loginPage }) => {
@@ -22,7 +18,7 @@ test.describe('SauceDemo Login & Order Flow', { tag: ['@ui', '@auth'] }, () => {
         await test.step('Verify Inventory page is opened', async () => {
             await expect(page, `Inventory should contain "${Routes.INVENTORY}"`).toHaveURL(Routes.INVENTORY);
 
-            await expect(inventoryPage.title).toHaveText('Products');
+            await expect(inventoryPage.title, 'Inventory page title should be "Products"').toHaveText('Products');
         });
     });
 
@@ -46,8 +42,8 @@ test.describe('SauceDemo Login & Order Flow', { tag: ['@ui', '@auth'] }, () => {
             await expect(page, `Inventory should contain "${Routes.INVENTORY}"`).toHaveURL(Routes.INVENTORY);
         });
 
-        await test.step(`Add "${PRODUCTS.BACKPACK}" to cart`, async () => {
-            await inventoryPage.addItemToCart(PRODUCTS.BACKPACK);
+        await test.step(`Add "${PRODUCTS.BACKPACK.name}" to cart`, async () => {
+            await inventoryPage.addItemToCart(PRODUCTS.BACKPACK.name);
 
             const count = await inventoryPage.getCartCount();
             expect(count, 'Cart badge should show 1').toBe(1);
@@ -55,11 +51,11 @@ test.describe('SauceDemo Login & Order Flow', { tag: ['@ui', '@auth'] }, () => {
 
         await test.step('Navigate to cart and verify item details', async () => {
             await inventoryPage.goToCart();
-            const productItem = cartPage.getItem(PRODUCTS.BACKPACK);
+            const productItem = cartPage.getItem(PRODUCTS.BACKPACK.name);
 
-            await expect(productItem, `"${PRODUCTS.BACKPACK}" should be visible in the cart`).toBeVisible();
+            await expect(productItem, `"${PRODUCTS.BACKPACK.name}" should be visible in the cart`).toBeVisible();
 
-            await expect(productItem, `Price should be ${PRODUCTS.BACKPACK_PRICE}`).toContainText(PRODUCTS.BACKPACK_PRICE);
+            await expect(productItem, `Price should be ${PRODUCTS.BACKPACK.price}`).toContainText(PRODUCTS.BACKPACK.price);
         });
     });
 });

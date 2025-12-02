@@ -14,7 +14,11 @@ export default defineConfig({
   retries: process.env.CI ? 2 : 0,
   forbidOnly: !!process.env.CI,
   workers: process.env.CI ? 1 : undefined,
-  reporter: [['list'], ['html', { open: 'never' }]],
+  reporter: [
+    ['list'],
+    ['html', { open: 'never' }],
+    ['json', { outputFile: 'test-results/results.json' }],
+  ],
   use: {
     baseURL: process.env.BASE_URL,
     headless: true,
@@ -23,12 +27,25 @@ export default defineConfig({
     trace: 'retain-on-failure',
     video: 'retain-on-failure',
     screenshot: 'only-on-failure',
+    actionTimeout: 10_000,
+    navigationTimeout: 15_000,
   },
 
   projects: [
+    // Auth setup (runs first)
+    {
+      name: 'setup',
+      testMatch: /.*\.setup\.ts/,
+    },
+    // UI tests
     {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'], storageState: 'playwright/.auth/user.json', },
+      testMatch: /.*\/ui\/.*\.spec\.ts/,
+      use: {
+        ...devices['Desktop Chrome'],
+        storageState: 'playwright/.auth/user.json',
+      },
+      dependencies: ['setup'],
     },
 
     //{
