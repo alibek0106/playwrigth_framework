@@ -2,23 +2,24 @@ import { test, expect } from '../../src/fixtures';
 import { DataFactory } from '../../src/utils/DataFactory';
 import { Routes } from '../../src/constants/Routes';
 import { PRODUCTS } from '../../src/constants/Products';
+import { LoginSteps } from '../../src/steps/LoginSteps';
 
 test.describe('SauceDemo Login & Order Flow', { tag: ['@ui', '@auth'] }, () => {
     test.beforeEach(async ({ loginPage }) => {
         await loginPage.goto();
     });
 
-    test('Test Case 1: Verify successful login with standard user', async ({ page, loginPage, inventoryPage }) => {
+    test('Test Case 1: Verify successful login with standard user', async ({ page, inventoryPage, loginSteps }) => {
         const credentials = DataFactory.getSauceUser();
 
-        await test.step('Enter username and password', async () => {
-            await loginPage.login(credentials.username, credentials.password);
+        await test.step('Perform standart user login', async () => {
+            await loginSteps.performStandardLogin();
         });
 
-        await test.step('Verify Inventory page is opened', async () => {
+        await test.step('Verify inventory page is opened', async () => {
             await expect(page, `Inventory should contain "${Routes.INVENTORY}"`).toHaveURL(Routes.INVENTORY);
 
-            await expect(inventoryPage.title, 'Inventory page title should be "Products"').toHaveText('Products');
+            await expect(inventoryPage.title).toHaveText('Products');
         });
     });
 
