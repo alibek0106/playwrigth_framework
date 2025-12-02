@@ -1,4 +1,4 @@
-import { Page, Locator, expect } from '@playwright/test';
+import { Page, Locator } from '@playwright/test';
 import { Routes } from '../constants/Routes';
 
 export class CartPage {
@@ -18,12 +18,12 @@ export class CartPage {
         await this.page.goto(Routes.CART);
     }
 
-    async expectItemVisible(productName: string): Promise<void> {
-        await expect(this.cartItems.filter({ hasText: productName })).toBeVisible();
+    getItem(productName: string): Locator {
+        return this.cartItems.filter({ hasText: productName });
     }
 
     async removeItem(productName: string): Promise<void> {
-        await this.cartItems.filter({ hasText: productName }).getByRole('button', { name: 'Remove' }).click();
+        await this.getItem(productName).getByRole('button', { name: 'Remove' }).click();
     }
 
     async goToCheckout(): Promise<void> {

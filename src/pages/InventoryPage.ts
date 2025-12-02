@@ -1,5 +1,6 @@
 import { Page, Locator } from '@playwright/test';
 import { Routes } from '../constants/Routes';
+import { SortOption } from '../constants/InventoryData';
 
 export class InventoryPage {
     readonly page: Page;
@@ -33,5 +34,13 @@ export class InventoryPage {
 
     async goToCart() {
         await this.cartBadge.click();
+    }
+
+    async sortBy(option: SortOption): Promise<void> {
+        await this.sortDropdown.selectOption(option);
+    }
+
+    getFirstItem(): Locator {
+        return this.inventoryItems.first();
     }
 }

@@ -1,4 +1,4 @@
-import { Page, Locator, expect } from '@playwright/test';
+import { Page, Locator } from '@playwright/test';
 
 export class CheckoutPage {
     readonly page: Page;
@@ -23,10 +23,13 @@ export class CheckoutPage {
         this.subtotalLabel = page.locator('.summary_subtotal_label').describe('Subtotal label');
     }
 
-    async fillInfo(firstName: string, lastName: string, zip: string): Promise<void> {
+    async fillForm(firstName: string, lastName: string, zip: string): Promise<void> {
         await this.firstNameInput.fill(firstName);
         await this.lastNameInput.fill(lastName);
         await this.postalCodeInput.fill(zip);
+    }
+
+    async submitForm(): Promise<void> {
         await this.continueBtn.click();
     }
 
