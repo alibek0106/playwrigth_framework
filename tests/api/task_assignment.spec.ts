@@ -25,9 +25,9 @@ test.describe('Task Assignment: 4 API Scenarios', { tag: '@task' }, () => {
     // 2. Negative GET
     // Fetch a non-existent user
     test(('2. Negative GET - User Not Found'), async ({ api }) => {
-        const ivalidId = 99999;
-        const response = await api.getSingleUser(ivalidId);
-        expect(response.status(), 'User with id: 9999 was found').toBe(StatusCode.NOT_FOUND);
+        const invalidId = 99999;
+        const response = await api.getSingleUser(invalidId);
+        expect(response.status(), 'User with id: 99999 was found').toBe(StatusCode.NOT_FOUND);
 
         const body = await response.json();
         expect(Object.keys(body).length, 'Response body is not empty').toBe(0);
@@ -59,6 +59,6 @@ test.describe('Task Assignment: 4 API Scenarios', { tag: '@task' }, () => {
         expect(response.status(), 'Response status is not Bad Request').toBe(StatusCode.BAD_REQUEST);
 
         const body = await response.json();
-        expect(body.error).toBe('Missing password');
+        expect(body.error, 'Error message is not as expected').toBe('Missing password');
     });
 })
